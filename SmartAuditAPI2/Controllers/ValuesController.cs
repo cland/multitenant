@@ -29,7 +29,7 @@ namespace SmartAuditAPI2.Controllers
 
         // GET api/values
         [HttpGet]
-        [Authorize(Roles = SystemRoles.Role_Admin + "," + SystemRoles.Role_SystemAdmin)]
+        [Authorize(Roles = SystemRoles.Role_Admin)]
         public async Task<ActionResult<List<IdentityUser>>> Get()
         {
             List<UserDTO> results = new List<UserDTO>() { };
