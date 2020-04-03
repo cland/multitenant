@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartAuditAPI2", "SmartAuditAPI2\SmartAuditAPI2.csproj", "{D75CB5FA-6D84-41C5-8ECD-491582B63A2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D75CB5FA-6D84-41C5-8ECD-491582B63A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D75CB5FA-6D84-41C5-8ECD-491582B63A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D75CB5FA-6D84-41C5-8ECD-491582B63A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D75CB5FA-6D84-41C5-8ECD-491582B63A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9CAF3DD5-7AAD-4C07-A965-5ADF8D7C214F}
+	EndGlobalSection
+EndGlobal
