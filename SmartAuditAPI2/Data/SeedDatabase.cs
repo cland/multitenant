@@ -31,9 +31,7 @@ namespace SmartAuditAPI2.Data
                 if (result.Succeeded)
                 {
                     string[] roles = new string[] {
-                        SystemRoles.Role_SystemAdmin.ToString(),
                         SystemRoles.Role_Admin.ToString(),
-                        SystemRoles.Role_Inspector.ToString(),
                         SystemRoles.Role_User.ToString()
                     };
                     //await userManager.AddToRoleAsync(user, "Admin");
