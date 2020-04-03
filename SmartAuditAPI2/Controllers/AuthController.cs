@@ -34,7 +34,7 @@ namespace SmartAuditAPI2.Controllers
         public IConfiguration Configuration { get; }
         [Route("insertuser")]
         [HttpPost]
-        [Authorize(Roles = SystemRoles.Role_Admin + "," + SystemRoles.Role_SystemAdmin)]
+        [Authorize(Roles = SystemRoles.Role_Admin )]
         public async Task<ActionResult> InsertUser([FromBody]UserDTO newUser)
         {
             var user = _mapper.Map<UserDTO, IdentityUser>(newUser);
