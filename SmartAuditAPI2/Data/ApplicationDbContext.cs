@@ -32,8 +32,8 @@ namespace SmartAuditAPI2.Data
             base.OnModelCreating(builder);
             #region "Seed Data"
             builder.Entity<IdentityRole>().HasData(
-                new { Id = "1", TenantId = TenantInfo.Identifier Name = SystemRoles.Role_Admin, NormalizedName=SystemRoles.Role_Admin.ToUpper()},                
-                new { Id = "2", TenantId = TenantInfo.Identifier Name = SystemRoles.Role_User, NormalizedName = SystemRoles.Role_User.ToUpper() }
+                new { Id = "1", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_Admin, NormalizedName=SystemRoles.Role_Admin.ToUpper()},                
+                new { Id = "2", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_User, NormalizedName = SystemRoles.Role_User.ToUpper() }
             );
             #endregion
         }
