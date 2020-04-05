@@ -1,5 +1,6 @@
 ﻿using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,34 +11,34 @@ namespace SmartAuditAPI2.Data
 {
     public class SeedDatabase
     {
-        public async static void Initialize(IServiceProvider serviceProvider, TenantInfo tenantInfo)
+        public static void Initialize(IServiceProvider serviceProvider, TenantInfo tenantInfo)
         {
             //var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
             using var context = new ApplicationDbContext(tenantInfo);
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             context.Database.EnsureCreated();
 
-            //await CreateUserRoles(serviceProvider);            
 
-            if (!context.Users.Any())
-            {
-                IdentityUser user = new IdentityUser()
-                {
-                    Email = "admin@testemail.co.zw",
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = "admin"
-                };
-                var result = await userManager.CreateAsync(user, "P@ssword123");
-                if (result.Succeeded)
-                {
-                    string[] roles = new string[] {
-                        SystemRoles.Role_Admin.ToString(),
-                        SystemRoles.Role_User.ToString()
-                    };
-                    //await userManager.AddToRoleAsync(user, "Admin");
-                    await userManager.AddToRolesAsync(user, roles);
-                }
-            }
+            //var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();            
+            ////await CreateUserRoles(serviceProvider);            
+            //if (!context.Users.Any())
+            //{
+            //    IdentityUser user = new IdentityUser()
+            //    {
+            //        Email = "admin@testemail.co.zw",
+            //        SecurityStamp = Guid.NewGuid().ToString(),
+            //        UserName = "admin"
+            //    };
+            //    var result = await userManager.CreateAsync(user, "P@ssword123");
+            //    if (result.Succeeded)
+            //    {
+            //        string[] roles = new string[] {
+            //            SystemRoles.Role_Admin.ToString(),
+            //            SystemRoles.Role_User.ToString()
+            //        };
+            //        //await userManager.AddToRoleAsync(user, "Admin");
+            //        await userManager.AddToRolesAsync(user, roles);
+            //    }
+            //}
 
 
         } //end initialize

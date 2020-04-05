@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs
+/SmartAuditAPI2/bin/Debug/netcoreapp3.1
+/SmartAuditAPI2/obj

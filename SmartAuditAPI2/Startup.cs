@@ -89,11 +89,11 @@ namespace SmartAuditAPI2
             app.UseRouting();
             app.UseMultiTenant();
 
-            var ti = new TenantInfo("finbuckle", "finbuckle-id1", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=pwd123;Database=Tenant1", null );
+            var ti = new TenantInfo("finbuckle", "finbuckle-id1", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=MyTenant", null );
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider,ti);
-            ti = new TenantInfo("megacorp", "megacorp-id2", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=pwd123;Database=Tenant2", null);
+            ti = new TenantInfo("megacorp", "megacorp-id2", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant2", null);
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
-            ti = new TenantInfo("initech", "initech-id3", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=pwd123;Database=Tenant3", null);
+            ti = new TenantInfo("initech", "initech-id3", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant3", null);
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
 
             app.UseAuthentication();
