@@ -14,11 +14,15 @@ namespace SmartAuditAPI2.Data
         public static void Initialize(IServiceProvider serviceProvider, TenantInfo tenantInfo)
         {
             //var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            using var context = new ApplicationDbContext(tenantInfo);
-            context.Database.EnsureCreated();
+            using var context = new ApplicationDbContext(tenantInfo);   //SUCCESS
 
+            //ISSUE 2: If i seed OnModelCreating, IdenityUser requires TenantId yet I can't add that when creating the user.
+            context.Database.EnsureCreated();  
 
-            //var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();            
+            //ISSUE 1: Setting the UserManager object from the injected service provider is using an ApplicationDbContext without a TenantInfo             
+            //resulting in ConnectionString being null.
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();            
+
             ////await CreateUserRoles(serviceProvider);            
             //if (!context.Users.Any())
             //{
