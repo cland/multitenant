@@ -30,7 +30,7 @@ namespace SmartAuditAPI2
         {
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddAutoMapper(typeof(Startup));
-
+            services.AddControllers();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var signinKey = Configuration.GetSection("Config")["signinkey"];
@@ -88,16 +88,26 @@ namespace SmartAuditAPI2
             app.UseStaticFiles();
             app.UseRouting();
             app.UseMultiTenant();
-
-            var ti = new TenantInfo("finbuckle", "finbuckle-id1", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=MyTenant", null );
-            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider,ti);
-            ti = new TenantInfo("megacorp", "megacorp-id2", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant2", null);
-            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
-            ti = new TenantInfo("initech", "initech-id3", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant3", null);
-            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
-
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseHttpsRedirection();
+
+            app.UseEndpoints(endpoints =>
+            {               
+                endpoints.MapControllerRoute(
+                    name: "api",
+                    pattern: "{__tenant__=}/api/{controller}/{id?}"
+                );
+            });
+
+            var ti = new TenantInfo("finbuckle", "finbuckle-identifier", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant1", null );
+            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider,ti);
+            ti = new TenantInfo("megacorp", "megacorp", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant2", null);
+            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
+            ti = new TenantInfo("initech", "initech", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant3", null);
+            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
+
+
         } //end Configure method
         
     } //end class

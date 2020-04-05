@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ using SmartAuditAPI2.Model;
 
 namespace SmartAuditAPI2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/{__tenant__=}/api/[controller]")]
     [ApiController]
     public class AuthController : Controller
     {
@@ -96,6 +97,24 @@ namespace SmartAuditAPI2.Controllers
                 });
             }
             return Unauthorized();
+        } //end Login
+
+
+        public IActionResult Get()
+        {
+            var ti = HttpContext.GetMultiTenantContext()?.TenantInfo;
+            if (ti == null)
+            {
+                return BadRequest("Missing tenant information");
+            }
+            var tenantInfoDTO = new
+            {
+                ti.Id,
+                ti.Name,
+                ti.Identifier,
+                ti.ConnectionString
+            };
+            return new ObjectResult(tenantInfoDTO);
         }
-    }
-}
+    } //end class
+} //namespace

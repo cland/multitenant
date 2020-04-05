@@ -31,39 +31,40 @@ namespace SmartAuditAPI2.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            #region "Seed Roles"
-            builder.Entity<IdentityRole>().HasData(
-                new { Id = "1", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_Admin, NormalizedName = SystemRoles.Role_Admin.ToUpper() },
-                new { Id = "2", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_User, NormalizedName = SystemRoles.Role_User.ToUpper() }
-            );
-            #endregion
+            //#region "Seed Roles"
+            //builder.Entity<IdentityRole>().HasData(
+            //    new { Id = "1", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_Admin, NormalizedName = SystemRoles.Role_Admin.ToUpper(),ConcurrencyStamp = Guid.NewGuid().ToString() },
+            //    new { Id = "2", TenantId = TenantInfo.Identifier, Name = SystemRoles.Role_User, NormalizedName = SystemRoles.Role_User.ToUpper(), ConcurrencyStamp = Guid.NewGuid().ToString() }
+            //);
+            //#endregion
 
-            #region "Seed Users"
-            // Seeding the users here
+            //#region "Seed Users"
+            //// Seeding the users here
 
-            string ADMIN_ID = Guid.NewGuid().ToString();
-            string ROLE_ID = "1";
-            //var hasher = new PasswordHasher();
-            builder.Entity<IdentityUser>().HasData(new IdentityUser
-            {
-                Id = ADMIN_ID,
-                UserName = "admin@myemail.com",
-                NormalizedUserName = "ADMIN@MYEMAIL.COM",
-                Email = "admin@myemail.com",
-                NormalizedEmail = "ADMIN@MYEMAIL.COM",
-                EmailConfirmed = true,
-                PasswordHash = HashPassword("P@ssw0rd1"),
-                SecurityStamp = Guid.NewGuid().ToString(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
+            //string ADMIN_ID = Guid.NewGuid().ToString();
+            //string ROLE_ID = "1";
+            ////var hasher = new PasswordHasher();
+            //builder.Entity<IdentityUser>().HasData(new IdentityUser
+            //{
+            //    Id = ADMIN_ID,
+            //    UserName = "admin@myemail.com",
+            //    NormalizedUserName = "ADMIN@MYEMAIL.COM",
+            //    Email = "admin@myemail.com",
+            //    NormalizedEmail = "ADMIN@MYEMAIL.COM",
+            //    EmailConfirmed = true,
+            //    PasswordHash = HashPassword("P@ssw0rd1"),
+            //    SecurityStamp = Guid.NewGuid().ToString(),
+            //    ConcurrencyStamp = Guid.NewGuid().ToString()
                 
-            });
-            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            {
-                RoleId = ROLE_ID,
-                UserId = ADMIN_ID
-            });
-            #endregion
-        }
+            //});
+            //builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            //{
+            //    RoleId = ROLE_ID,
+            //    UserId = ADMIN_ID
+            //});
+            //#endregion
+
+        } //end OnModelCreating
         public static string HashPassword(string password)
         {
             byte[] salt;
