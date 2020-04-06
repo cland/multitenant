@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Finbuckle.MultiTenant;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartAuditAPI2.Data;
@@ -10,33 +12,30 @@ using SmartAuditAPI2.Data;
 namespace MultiTenant.Controllers
 {
     [Route("/{__tenant__=}/api/[controller]")]
+    [Authorize(Roles = SystemRoles.Role_User)]
     [ApiController]
     public class TasksController : ControllerBase
-    {
-        public TasksController()
-        {
-            
-        }
+    {        
         public IActionResult Get()
         {
             var ti = HttpContext.GetMultiTenantContext()?.TenantInfo;
-            if (ti == null)
+            if (ti == null)return BadRequest("Missing tenant information");
+            using var context = new ApplicationDbContext(ti);
+            var identity = User.Identity as ClaimsIdentity;
+            List<Claim> claims = identity.Claims.ToList();
+            var data = new
             {
-                return BadRequest("Missing tenant information");
-            }
-            var tenantInfoDTO = new
-            {
-                ti.Id,
-                ti.Name,
-                ti.Identifier,
-                ti.ConnectionString
+                
+                Identity = identity.FindFirst("aud").Value.ToString(),
+                tenantInfo = new {
+                    ti.Id,
+                    ti.Name,
+                    ti.Identifier,
+                    ti.ConnectionString
+                }                
             };
 
-            using var context = new ApplicationDbContext(ti);
-            
-            var rolesInDb = context.Roles.ToList();
-
-            return new ObjectResult(rolesInDb);
+            return new ObjectResult(data);
         }
     } //end class
 } //end namespace

@@ -25,7 +25,10 @@ namespace SmartAuditAPI2.Controllers
         private UserManager<IdentityUser> userManager;
         private RoleManager<IdentityRole> roleManager;
         private readonly IMapper _mapper;
-        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole>roleManager,IMapper _mapper, IConfiguration configuration)
+        public AuthController(UserManager<IdentityUser> userManager, 
+            RoleManager<IdentityRole>roleManager,
+            IMapper _mapper, 
+            IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -60,8 +63,21 @@ namespace SmartAuditAPI2.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
+            var ti = HttpContext.GetMultiTenantContext()?.TenantInfo;
+            if (ti == null)return BadRequest("Invalid tenant");
+
+            using ApplicationDbContext context = new ApplicationDbContext(ti);
+            //first get the user using user manager
             var user = await userManager.FindByNameAsync(model.Username);
-            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            if(user == null)
+            {
+                //get it directly
+                user = context.Users.FirstOrDefault(u => u.UserName == model.Username);
+                if (user == null) return Unauthorized("User login credentials used are incorrect.");
+            }
+
+            //now we have the user, check he password.
+            if (await userManager.CheckPasswordAsync(user, model.Password))
             {
                 var roles = await userManager.GetRolesAsync(user);
                 var claims = new List<Claim>
@@ -69,7 +85,8 @@ namespace SmartAuditAPI2.Controllers
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName ),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Aud,user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.Ticks.ToString())
+                    new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.Ticks.ToString()),
+                    new Claim("TenantId",ti.Id)
                     //,          new Claim("Office",(user.Office==null?"":user.Office))
                 };
                 foreach(var r in roles)
@@ -93,7 +110,8 @@ namespace SmartAuditAPI2.Controllers
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expiration = token.ValidTo,
                         location = "somelocation",
-                        roles = roles.ToList()
+                        roles = roles.ToList(),
+                        tenant = ti.Name
                 });
             }
             return Unauthorized();
