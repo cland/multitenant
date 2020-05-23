@@ -100,11 +100,11 @@ namespace SmartAuditAPI2
                 );
             });
 
-            var ti = new TenantInfo("finbuckle", "finbuckle-identifier", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant1", null );
+            var ti = new TenantInfo("finbuckle", "finbuckle-identifier", "finbuckle-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mypwd10;Database=Tenant1", null );
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider,ti);
-            ti = new TenantInfo("megacorp", "megacorp", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant2", null);
+            ti = new TenantInfo("megacorp", "megacorp", "megacorp-name", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mypwd10;Database=Tenant2", null);
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
-            ti = new TenantInfo("initech", "initech", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mabasa10;Database=Tenant3", null);
+            ti = new TenantInfo("initech", "initech", "Initech LLC", "Server=localhost;Port=5432;Uid=postgres;Pwd=Mypwd10;Database=Tenant3", null);
             SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider, ti);
 
 
